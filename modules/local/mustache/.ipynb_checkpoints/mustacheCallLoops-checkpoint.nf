@@ -11,7 +11,7 @@ process MUSTACHE_CALL_LOOPS {
         '' }"
 
     input:
-    tuple val(meta), path(mcool)
+    tuple val(meta), path(cool)
 
     output:
     path("*mustacheLoops*"), emit:results
@@ -21,11 +21,12 @@ process MUSTACHE_CALL_LOOPS {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    mustache -f ${mcool} \
-        -o ${prefix}_mustacheLoops_res_${meta.resolution} \
+    mustache -f ${cool} \
+        -o ${prefix}_mustacheLoops_res_${meta.resolution}.tsv \
         ${args} \
         -p ${task.cpus} \
-		-r ${meta.resolution}
+		-r ${meta.resolution} \
+        -pt 0.05
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

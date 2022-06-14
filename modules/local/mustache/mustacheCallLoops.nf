@@ -22,10 +22,11 @@ process MUSTACHE_CALL_LOOPS {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     mustache -f ${cool} \
-        -o ${prefix}_mustacheLoops_res_${meta.resolution} \
+        -o ${prefix}_mustacheLoops_res_${meta.resolution}.tsv \
         ${args} \
         -p ${task.cpus} \
-		-r ${meta.resolution}
+		-r ${meta.resolution} \
+        -pt 0.05
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
