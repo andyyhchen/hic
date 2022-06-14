@@ -2,6 +2,7 @@
 work/
 data/
 results/
+test/
 .DS_Store
 testing/
 testing*
