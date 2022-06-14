@@ -8,7 +8,7 @@ process MUSTACHE_CALL_LOOPS {
     conda (params.enable_conda ? "conda-forge::mustache-hic==1.2.7" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://stanfordmedicine.box.com/shared/static/16nwhgetqb84y5p1h2uyd0zu4fs2xerf.sif' :
-        '' }"
+        'andyisman/mustache'}"
 
     input:
     tuple val(meta), path(cool)
