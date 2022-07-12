@@ -1,5 +1,7 @@
 process GET_JUICEBOX{
     label 'process_high'
+    label 'queue_owners'
+    label 'error_retry'
 
     conda (params.enable_conda ? "conda-forge::python=3.9" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
