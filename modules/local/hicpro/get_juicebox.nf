@@ -3,7 +3,7 @@ process GET_JUICEBOX{
 
   conda (params.enable_conda ? "conda-forge::python=3.9" : null)
   container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-      'https://stanfordmedicine.box.com/s/33l6xccoygd84frln2qrabnsck0ekn6w' :
+      'https://stanfordmedicine.box.com/shared/static/33l6xccoygd84frln2qrabnsck0ekn6w.img' :
       'rnakato/juicer'}"
 
   input:
