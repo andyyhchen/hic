@@ -15,7 +15,7 @@ process GET_JUICEBOX{
 
   script:
   """
-  hicpro2juicebox.sh \\
+  bash hicpro2juicebox.sh \\
     -g ${chrsize} \\
     -i ${vpairs} \\
     -j /opt/juicer/scripts/common/juicer_tools.jar
