@@ -126,6 +126,7 @@ workflow HICPRO {
         chrsize.collect()
     )
     ch_hicpro_juicebox = GET_JUICEBOX.out.boxes
+    ch_hicpro_juicebox.view()
 
   }else{
     ch_hicpro_raw_maps = Channel.empty()
