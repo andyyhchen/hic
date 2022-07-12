@@ -12,6 +12,7 @@ include { MERGE_STATS } from '../../modules/local/hicpro/merge_stats'
 include { HICPRO2PAIRS } from '../../modules/local/hicpro/hicpro2pairs'
 include { BUILD_CONTACT_MAPS } from '../../modules/local/hicpro/build_contact_maps'
 include { ICE_NORMALIZATION } from '../../modules/local/hicpro/run_ice'
+include { GET_JUICEBOX } from '../../modules/local/hicpro/get_juicebox'
 
 // Remove meta.chunks
 def removeChunks(row){
