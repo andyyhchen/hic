@@ -121,8 +121,8 @@ workflow HICPRO {
     ch_versions = ch_versions.mix(ICE_NORMALIZATION.out.versions)
 
     GET_JUICEBOX(
-    MERGE_VALID_INTERACTION.out.valid_pairs
-    chrsize.collect()
+        MERGE_VALID_INTERACTION.out.valid_pairs,
+        chrsize.collect()
     )
     ch_hicpro_juicebox = GET_JUICEBOX.out.boxes
 
