@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## HiC-Pro           
+## HiC-Pro
 ## Copyleft 2015-2016 Institut Curie
 ## Author(s): Alex Barrera, Nicolas Servant
 ## Contact: nicolas.servant@curie.fr
@@ -18,7 +18,7 @@ function usage {
 
 function help {
     usage;
-    echo 
+    echo
     echo "Generate JuiceBox input file from HiC-Pro results"
     echo "See http://www.aidenlab.org/juicebox/ for details about Juicebox"
     echo "---------------"
@@ -125,8 +125,8 @@ fi
 echo "Generating Juicebox input files ..."
 
 if [[ ! -z $RESFRAG ]]; then
- 
-    ## The restriction fragment sites file needs to be converted in order to be used in Juicebox command line tool (see attached script). 
+
+    ## The restriction fragment sites file needs to be converted in order to be used in Juicebox command line tool (see attached script).
     ## They expect one line per chromosome with restriction sites separated by tabs and sorted by coordinate.
     ## Fix bug reported
     awk 'BEGIN{OFS="\t"; prev_chr=""}$1!=prev{print ""; prev=$1; printf "%s\t", $1} $1==prev {printf "%s\t",$3+1} END{print ""}' $RESFRAG | sed "s/\t\n/\n/" | sed "/^$/d" > ${TEMP}/$$_resfrag.juicebox
@@ -154,5 +154,5 @@ fi
 
 ## Clean
 /bin/rm -f ${TEMP}/$$_resfrag.juicebox ${TEMP}/$$_allValidPairs.pre_juicebox_sorted
-
+/bin/rm -rf ${TEMP}
 echo "done !"

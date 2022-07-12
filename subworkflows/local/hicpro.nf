@@ -3,7 +3,7 @@
  * MAIN WORKFLOW
  * From the raw sequencing reads to the list of valid interactions
  */
-  
+
 include { HICPRO_MAPPING } from './hicpro_mapping'
 include { GET_VALID_INTERACTION } from '../../modules/local/hicpro/get_valid_interaction'
 include { GET_VALID_INTERACTION_DNASE } from '../../modules/local/hicpro/get_valid_interaction_dnase'
@@ -65,11 +65,11 @@ workflow HICPRO {
     ch_valid_pairs = GET_VALID_INTERACTION_DNASE.out.valid_pairs
     ch_valid_stats = GET_VALID_INTERACTION_DNASE.out.stats
   }
-  
+
 
   //**************************************
   // MERGE AND REMOVE DUPLICATES
-  
+
   //if (params.split_fastq){
   ch_valid_pairs = ch_valid_pairs.map{ it -> removeChunks(it)}.groupTuple()
   ch_hicpro_stats = HICPRO_MAPPING.out.mapstats.map{it->removeChunks(it)}.groupTuple()
@@ -103,8 +103,8 @@ workflow HICPRO {
 
   //***************************************
   // CONTACT MAPS
-  
-  if (params.hicpro_maps){    
+
+  if (params.hicpro_maps){
 
     //build_contact_maps
     BUILD_CONTACT_MAPS(
@@ -112,13 +112,19 @@ workflow HICPRO {
       chrsize.collect()
     )
     ch_hicpro_raw_maps = BUILD_CONTACT_MAPS.out.maps
- 
+
     // run_ice
     ICE_NORMALIZATION(
       BUILD_CONTACT_MAPS.out.maps
     )
     ch_hicpro_iced_maps = ICE_NORMALIZATION.out.maps
     ch_versions = ch_versions.mix(ICE_NORMALIZATION.out.versions)
+
+    GET_JUICEBOX(
+    MERGE_VALID_INTERACTION.out.valid_pairs
+    chrsize.collect()
+    )
+    ch_hicpro_juicebox = GET_JUICEBOX.out.boxes
 
   }else{
     ch_hicpro_raw_maps = Channel.empty()
