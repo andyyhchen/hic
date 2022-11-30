@@ -1,6 +1,5 @@
 process GET_JUICEBOX{
     label 'process_high'
-    label 'queue_owners'
     label 'error_retry'
 
     conda (params.enable_conda ? "conda-forge::python=3.9" : null)
