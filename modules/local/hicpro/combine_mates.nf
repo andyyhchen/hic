@@ -1,6 +1,6 @@
 process COMBINE_MATES {
     tag "$prefix"
-    label 'process_low'
+    label 'process_medium'
 
     conda (params.enable_conda ? "conda-forge::python=3.9  bioconda::pysam=0.19.0" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
