@@ -1,6 +1,7 @@
 process BUILD_CONTACT_MAPS{
   tag "$meta.id - $res"
   label 'process_highmem'
+  label 'error_retry'
 
   conda (params.enable_conda ? "conda-forge::sed=4.7" : null)
   container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
