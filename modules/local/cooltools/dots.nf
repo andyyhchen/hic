@@ -25,7 +25,7 @@ process COOLTOOLS_CALL_LOOPS {
 	
 	cooltools expected-cis -p ${task.cpus} -o ${prefix}_expected_${meta.resolution}.tsv ${cool}
 	
-	cooltools dots --fdr 0.05 -p ${task.cpus} -o ${prefix}_cooltoolsLoops_res_${meta.resolution}.tsv ${cool} ${prefix}_expected_${meta.resolution}.tsv::balanced.avg 
+	cooltools dots --fdr 0.01 -p ${task.cpus} -o ${prefix}_cooltoolsLoops_res_${meta.resolution}.tsv ${cool} ${prefix}_expected_${meta.resolution}.tsv::balanced.avg 
 
 	rm ${prefix}_expected_${meta.resolution}.tsv
 
