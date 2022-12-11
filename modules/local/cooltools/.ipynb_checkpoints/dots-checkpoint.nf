@@ -4,6 +4,7 @@
 
 process COOLTOOLS_CALL_LOOPS {
     label 'process_medium'
+	label 'error_ignore'
 
     conda (params.enable_conda ? "bioconda::cooltools=0.5.1" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -22,16 +23,9 @@ process COOLTOOLS_CALL_LOOPS {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
 	
-	cooltools expected-cis -p ${task.cpus} \
-	-o ${prefix}_expected_${meta.resolution}.tsv \
-	${cool}
-	 
-    cooltools dots --max-nans-tolerated 1 \ 
-	--fdr 0.05 \
-	-p ${task.cpus} \
-	-o ${prefix}_cooltoolsLoops_res_${meta.resolution}.tsv \
-	${cool} \
-	${prefix}_expected_${meta.resolution}.tsv::balanced.avg
+	cooltools expected-cis -p ${task.cpus} -o ${prefix}_expected_${meta.resolution}.tsv ${cool}
+	
+	cooltools dots --fdr 0.05 -p ${task.cpus} -o ${prefix}_cooltoolsLoops_res_${meta.resolution}.tsv ${cool} ${prefix}_expected_${meta.resolution}.tsv::balanced.avg 
 
 	rm ${prefix}_expected_${meta.resolution}.tsv
 
