@@ -1,6 +1,6 @@
 process HICPRO2PAIRS {
     tag "$meta.id"
-    label 'process_high'
+    label 'process_high_memory'
 
     conda (params.enable_conda ? "bioconda::pairix=0.3.7" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
