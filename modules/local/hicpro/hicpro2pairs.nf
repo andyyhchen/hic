@@ -20,8 +20,8 @@ process HICPRO2PAIRS {
     """
     ##columns: readID chr1 pos1 chr2 pos2 strand1 strand2
     awk '{OFS="\t";print \$1,\$2,\$3,\$5,\$6,\$4,\$7}' $vpairs > ${prefix}_contacts.pairs
-    awk '{file=$2 ".chunk"}{print > file}' ${prefix}_contacts.pairs
-    for X in *.chunk; do sort -k2,2 -k4,4 -k3,3n -k5,5n < $X > sorted-$X; done
+    awk '{file=\$2 ".chunk"}{print > file}' ${prefix}_contacts.pairs
+    for X in *.chunk; do sort -k2,2 -k4,4 -k3,3n -k5,5n < \$X > sorted-\$X; done
     ls sorted-*.chunk | sort  -V | xargs cat > ${prefix}_contacts.pairs.tmp
     bgzip -c -@ 4  ${prefix}_contacts.pairs.tmp > ${prefix}_contacts.pairs.gz
     pairix -f ${prefix}_contacts.pairs.gz
