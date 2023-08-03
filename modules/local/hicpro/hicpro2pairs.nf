@@ -1,6 +1,6 @@
 process HICPRO2PAIRS {
     tag "$meta.id"
-    label 'process_use_bigmem'
+    label 'process_medium'
 
     conda (params.enable_conda ? "bioconda::pairix=0.3.7" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -20,8 +20,13 @@ process HICPRO2PAIRS {
     """
     ##columns: readID chr1 pos1 chr2 pos2 strand1 strand2
     awk '{OFS="\t";print \$1,\$2,\$3,\$5,\$6,\$4,\$7}' $vpairs > ${prefix}_contacts.pairs
-    sort -k2,2 -k4,4 -k3,3n -k5,5n ${prefix}_contacts.pairs | bgzip -c > ${prefix}_contacts.pairs.gz
+    awk '{file=$2 ".chunk"}{print > file}' ${prefix}_contacts.pairs
+    for X in *.chunk; do sort -k2,2 -k4,4 -k3,3n -k5,5n < $X > sorted-$X; done
+    ls sorted-*.chunk | sort  -V | xargs cat > ${prefix}_contacts.pairs.tmp
+    bgzip -c -@ 4  ${prefix}_contacts.pairs.tmp > ${prefix}_contacts.pairs.gz
     pairix -f ${prefix}_contacts.pairs.gz
+    rm *chunk
+    rm ${prefix}_contacts.pairs.tmp
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
